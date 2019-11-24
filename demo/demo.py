@@ -2,12 +2,17 @@ import dash
 from dash.dependencies import Input, Output, State
 import dash_core_components as dcc
 import dash_html_components as html
+import style_transfer
 import base64  # REMOVE LATER
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
+styles = {
+    'van Gogh': 'Gogh',
+    'Monet': 'Monet'
+}
 
 # REMOVE LATER
 image_filename = 'Gogh-StarryNight.jpg' # replace with your own image
@@ -49,11 +54,9 @@ app.layout = html.Div([
                 dcc.Dropdown(
                     id='choose-style',
                     options=[
-                        {'label': 'New York City', 'value': 'NYC'},
-                        {'label': 'Montréal', 'value': 'MTL'},
-                        {'label': 'San Francisco', 'value': 'SF'}
+                        {'label': label, 'value': value} for (label, value) in styles.items()
                     ],
-                    value='NYC',  # initial value,
+                    value='Gogh',  # initial value
                 )]
             )
         ],
@@ -99,25 +102,20 @@ def display_input(contents, filename):
         return children
 
 
-def style_image(input_image, style):
-    # TODO
-    # load model, style transfer
-    # style transfer on input image
-    output_image = input_image # REMOVE
-
-    children = [
-        html.Img(src=output_image, style={'width': '100%'}),
-    ]
-    return children
-
-
 @app.callback(Output('display-output-image', 'children'),
               [Input('input-image', 'contents')],
               [State('choose-style', 'value')])
-def display_output(contents, style):
-    # TODO
-    if contents is not None:
-        return style_image(contents, style)
+def display_output(input_image, style):
+    if input_image is not None:
+        output_image = style_transfer.transfer(input_image, style)
+        for key, value in styles.items():
+            if value == style:
+                style_name = key
+        children = [
+            html.H5('Output Image (' + style_name + ')'),
+            html.Img(src=output_image, style={'width': '100%'}),
+        ]
+        return children
 
 
 if __name__ == '__main__':
