@@ -15,7 +15,7 @@ styles = {
 }
 
 # REMOVE LATER
-image_filename = 'Gogh-StarryNight.jpg' # replace with your own image
+image_filename = '../images/style/Gogh-StarryNight.jpg' # replace with your own image
 encoded_image = base64.b64encode(open(image_filename, 'rb').read())
 #
 
@@ -73,19 +73,9 @@ app.layout = html.Div([
 
     # display output image
     html.Div(
-        children=[
-            html.H5('Output Image: XX Style'),
-            html.Img(
-                src='data:image/png;base64,{}'.format(encoded_image.decode()),
-                style={'width': '100%'}),
-        ],
-        style={'width': '50%', 'display': 'inline-block', 'verticalAlign': 'top'}
-    ),
-
-    # test
-    html.Div(
+        style={'width': '50%', 'display': 'inline-block', 'verticalAlign': 'top'},
         id='display-output-image'
-    )
+    ),
 
 ], style={'padding': '10px'})
 
@@ -103,17 +93,20 @@ def display_input(contents, filename):
 
 
 @app.callback(Output('display-output-image', 'children'),
-              [Input('input-image', 'contents')],
+              [Input('input-image', 'filename')],
               [State('choose-style', 'value')])
-def display_output(input_image, style):
-    if input_image is not None:
-        output_image = style_transfer.transfer(input_image, style)
+def display_output(input_image_name, style):
+    if input_image_name is not None:
+        output_image = style_transfer.transfer(input_image_name, style)
         for key, value in styles.items():
             if value == style:
                 style_name = key
         children = [
             html.H5('Output Image (' + style_name + ')'),
-            html.Img(src=output_image, style={'width': '100%'}),
+            html.Img(
+                src='data:image/png;base64,{}'.format(output_image.decode()),
+                style={'width': '100%'}
+            ),
         ]
         return children
 
