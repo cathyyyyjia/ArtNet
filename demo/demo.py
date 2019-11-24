@@ -3,21 +3,17 @@ from dash.dependencies import Input, Output, State
 import dash_core_components as dcc
 import dash_html_components as html
 import style_transfer
-import base64  # REMOVE LATER
+
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+
 
 styles = {
     'van Gogh': 'Gogh',
     'Monet': 'Monet'
 }
 
-# REMOVE LATER
-image_filename = '../images/style/Gogh-StarryNight.jpg' # replace with your own image
-encoded_image = base64.b64encode(open(image_filename, 'rb').read())
-#
 
 app.layout = html.Div([
     html.H1('ArtNet', style={'textAlign': 'center'}),
