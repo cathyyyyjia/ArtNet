@@ -10,8 +10,9 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 
 styles = {
-    'van Gogh': 'Gogh',
-    'Monet': 'Monet'
+    "van Gogh - Starry Night": "van Gogh - Starry Night",
+    "van Gogh - L'Arlésienne": "van Gogh - L'Arlésienne",
+    "Picasso - The Dream": "Picasso - The Dream"
 }
 
 
@@ -46,15 +47,26 @@ app.layout = html.Div([
     html.Div(
         children=[
             html.Label([
-                "Choose a style",
+                "Choose a Style",
                 dcc.Dropdown(
                     id='choose-style',
                     options=[
                         {'label': label, 'value': value} for (label, value) in styles.items()
                     ],
-                    value='Gogh',  # initial value
-                )]
-            )
+                    value="van Gogh - Starry Night",  # initial value
+                )
+            ]),
+            html.Label([
+                "Preserve Color",
+                dcc.RadioItems(
+                    id='preserve-color',
+                    options=[
+                        {'label': 'Yes', 'value': 'True'},
+                        {'label': 'No', 'value': 'False'},
+                    ],
+                    value='False'
+                )
+            ]),
         ],
         style={'width': '48%', 'display': 'inline-block', 'marginLeft': '30px', 'verticalAlign': 'top'}
     ),
@@ -89,16 +101,14 @@ def display_input(contents, filename):
 
 
 @app.callback(Output('display-output-image', 'children'),
-              [Input('input-image', 'filename')],
-              [State('choose-style', 'value')])
-def display_output(input_image_name, style):
+              [Input('input-image', 'filename'),
+               Input('choose-style', 'value'),
+               Input('preserve-color', 'value')])
+def display_output(input_image_name, style, color):
     if input_image_name is not None:
-        output_image = style_transfer.transfer(input_image_name, style)
-        for key, value in styles.items():
-            if value == style:
-                style_name = key
+        output_image = style_transfer.transfer(input_image_name, style, color)
         children = [
-            html.H5('Output Image (' + style_name + ')'),
+            html.H5('Output Image (' + style + ')'),
             html.Img(
                 src='data:image/png;base64,{}'.format(output_image.decode()),
                 style={'width': '100%'}
