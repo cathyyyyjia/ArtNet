@@ -10,9 +10,14 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 
 styles = {
-    "van Gogh - Starry Night": "van Gogh - Starry Night",
-    "van Gogh - L'Arlésienne": "van Gogh - L'Arlésienne",
-    "Picasso - The Dream": "Picasso - The Dream"
+    "Aoyama - Detective Conan": "Aoyama - Detective Conan",
+    "Gao Jianfu - Cotton Roses and Mandarin Ducks": "Gao Jianfu - Cotton Roses and Mandarin Ducks",
+    "Hokusai - The Great Wave off Kanagawa": "Hokusai - The Great Wave off Kanagawa",
+    "Monet - Camille Monet On Her Deathbed": "Monet - Camille Monet On Her Deathbed",
+    "Picasso - The Dream": "Picasso - The Dream",
+    "Qi Baishi - Lotus Flowers and Wild Duck": "Qi Baishi - Lotus Flowers and Wild Duck",
+    "Rousseau - Myself": "Rousseau - Myself",
+    "van Gogh - Starry Night": "van Gogh - Starry Night"
 }
 
 
@@ -53,7 +58,7 @@ app.layout = html.Div([
                     options=[
                         {'label': label, 'value': value} for (label, value) in styles.items()
                     ],
-                    value="van Gogh - Starry Night",  # initial value
+                    value="Monet - Camille Monet On Her Deathbed",  # initial value
                 )
             ]),
             html.Label([
