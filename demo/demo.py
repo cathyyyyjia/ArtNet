@@ -13,6 +13,7 @@ styles = {
     "Aoyama - Detective Conan": "Aoyama - Detective Conan",
     "Gao Jianfu - Cotton Roses and Mandarin Ducks": "Gao Jianfu - Cotton Roses and Mandarin Ducks",
     "Hokusai - The Great Wave off Kanagawa": "Hokusai - The Great Wave off Kanagawa",
+    "Hokusai + Qi Baishi (Multi-Style)": "Hokusai + Qi Baishi",
     "Monet - Camille Monet On Her Deathbed": "Monet - Camille Monet On Her Deathbed",
     "Monet - Haystack": "Monet - Haystack",
     "Picasso - The Dream": "Picasso - The Dream",
@@ -74,6 +75,21 @@ app.layout = html.Div([
                     value='False'
                 )
             ]),
+            html.Label([
+                "Multi-Style Ratio",
+                dcc.Slider(
+                    id='multi-style-ratio',
+                    min=1090,
+                    max=9010,
+                    step=None,
+                    marks={
+                        1090: '10:90',
+                        5050: '50:50',
+                        9010: '90:10'
+                    },
+                    value=5050
+                )
+            ])
         ],
         style={'width': '48%', 'display': 'inline-block', 'marginLeft': '30px', 'verticalAlign': 'top'}
     ),
@@ -110,10 +126,11 @@ def display_input(contents, filename):
 @app.callback(Output('display-output-image', 'children'),
               [Input('input-image', 'filename'),
                Input('choose-style', 'value'),
-               Input('preserve-color', 'value')])
-def display_output(input_image_name, style, color):
+               Input('preserve-color', 'value'),
+               Input('multi-style-ratio', 'value')])
+def display_output(input_image_name, style, color, ratio):
     if input_image_name is not None:
-        output_image = style_transfer.transfer(input_image_name, style, color)
+        output_image = style_transfer.transfer(input_image_name, style, color, ratio)
         children = [
             html.H5('Output Image (' + style + ')'),
             html.Img(

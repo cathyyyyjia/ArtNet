@@ -5,7 +5,7 @@ Style Transfer
 import os
 import base64
 
-def transfer(input_image_name, style, color):
+def transfer(input_image_name, style, color, ratio):
     """
     Load model and perform style transfer on input image
     :param input_image_name: filename of an input image
@@ -13,7 +13,10 @@ def transfer(input_image_name, style, color):
     :return: output_image
     """
 
-    output_image = '../images/output/' + style + '-' + input_image_name.rstrip('.jpg')
+    output_image = '../images/output/' + style + '-'
+    if '+' in style:
+        output_image += str(ratio) + '-'
+    output_image += input_image_name.rstrip('.jpg')
     if color == "True":
         output_image += '-color'
     output_image += '.jpg'
