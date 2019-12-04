@@ -14,6 +14,7 @@ styles = {
     "Gao Jianfu - Cotton Roses and Mandarin Ducks": "Gao Jianfu - Cotton Roses and Mandarin Ducks",
     "Hokusai - The Great Wave off Kanagawa": "Hokusai - The Great Wave off Kanagawa",
     "Monet - Camille Monet On Her Deathbed": "Monet - Camille Monet On Her Deathbed",
+    "Monet - Haystack": "Monet - Haystack",
     "Picasso - The Dream": "Picasso - The Dream",
     "Qi Baishi - Lotus Flowers and Wild Duck": "Qi Baishi - Lotus Flowers and Wild Duck",
     "Rousseau - Myself": "Rousseau - Myself",
@@ -22,8 +23,8 @@ styles = {
 
 
 app.layout = html.Div([
-    html.H1('ArtNet', style={'textAlign': 'center'}),
-
+    html.H1('ArtNet: Artistic Style Transfer Network', style={'textAlign': 'center'}),
+    html.H3('Mengying Bi (mybi), Cathy Jia (cathyjia), Geoffrey Li (geoffli)', style={'textAlign': 'center'}),
     html.Hr(),
 
     # drag or upload input image
@@ -58,7 +59,7 @@ app.layout = html.Div([
                     options=[
                         {'label': label, 'value': value} for (label, value) in styles.items()
                     ],
-                    value="Monet - Camille Monet On Her Deathbed",  # initial value
+                    value="Hokusai - The Great Wave off Kanagawa",  # initial value
                 )
             ]),
             html.Label([
@@ -69,6 +70,7 @@ app.layout = html.Div([
                         {'label': 'Yes', 'value': 'True'},
                         {'label': 'No', 'value': 'False'},
                     ],
+                    labelStyle={'display': 'inline-block', 'text-align': 'justify'},
                     value='False'
                 )
             ]),
@@ -123,4 +125,4 @@ def display_output(input_image_name, style, color):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=False)

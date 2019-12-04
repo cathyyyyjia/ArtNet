@@ -13,15 +13,6 @@ def transfer(input_image_name, style, color):
     :return: output_image
     """
 
-    input_image = open('../images/input/' + input_image_name)
-
-    # style_image = ...
-
-    # transfer style
-
-    # save output_image in output
-    # output_image = ...
-
     output_image = '../images/output/' + style + '-' + input_image_name.rstrip('.jpg')
     if color == "True":
         output_image += '-color'
